@@ -5,6 +5,7 @@ import { useAuth } from "@/context/authContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { FormEvent, useState } from "react";
+import toast from "react-hot-toast";
 
 
 const Signup = () => {
@@ -17,24 +18,24 @@ const Signup = () => {
     })
 
     const [error, setError] = useState("")
-    const { setAuthStatus, setUser } = useAuth();
+    const { setAuthStatus } = useAuth();
 
     const create = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if(formData.email == "" || formData.name == "" || formData.password == ""){
+            toast.error("All Field Required");
+        }
         try {
             const userData = await authService.createAccount(formData);
             if (userData) {
-                const session = await authService.login(formData);
-                if (session) {
-                    const userData = await authService.getCurrentUser()
-                    if (userData) {
-                        setUser(userData)
-                        setAuthStatus(true)
-                        router.push("/profile")
-                    }
-                }
+                setAuthStatus(true)
+                router.push("/profile")
+                toast.success("Your Account created");
             }
         } catch (error: any) {
+            console.log(error);
+            toast.error(error.message)
             setError(error.message)
         }
     }

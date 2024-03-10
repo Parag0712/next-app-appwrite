@@ -4,11 +4,16 @@ import { Client, Account, ID } from "appwrite";
 
 class AuthService {
     client = new Client();
-    account: any;
+    account;
+
+    //when object create then our account create
+    //setup account and client
 
     constructor() {
-        this.client.setEndpoint(config.appWriteEndPoint).setProject(config.appWriteProjectId);
-        this.account = new Account(this.client);
+        this.client
+            .setEndpoint(config.appwriteUrl).setProject(config.appwriteProjectId)
+
+        this.account = new Account(this.client)
     }
 
 
@@ -34,26 +39,9 @@ class AuthService {
         }
     }
 
-    async updateProfile({ name, email, password }:User) {
-        try {
-            // Update name if provided
-            if (name) {
-                const nameUpdateResult = await this.account.updateName(name, password);
-            }
-            // Update email if provided
-            if (email) {
-                const emailUpdateResult = await this.account.updateEmail(email, password);
-            }
-            return true;
-        } catch (error) {
-            console.error('Error updating profile:', error);
-            throw error;
-        }
-    }
-
     async isLogin(): Promise<boolean> {
         try {
-            const data =await this.getCurrentUser();
+            const data = await this.getCurrentUser();
             return Boolean(data);
         } catch (error: any) {
             return false

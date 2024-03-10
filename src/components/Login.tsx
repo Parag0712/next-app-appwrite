@@ -5,10 +5,11 @@ import { useAuth } from "@/context/authContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { FormEvent, useState } from "react";
+import toast from "react-hot-toast";
 
 const Login = () => {
     const router = useRouter();
-    const { setAuthStatus, setUser } = useAuth();
+    const { setAuthStatus } = useAuth();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -16,18 +17,20 @@ const Login = () => {
     const [error, setError] = useState("")
     const login = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+
+        if(formData.email == "" || formData.password ==""){
+            toast.error("All Field Required");
+        }
         try {
             const session = await authService.login(formData);
             if (session) {
-                const userData = await authService.getCurrentUser()
-                if (userData) {
-                    setAuthStatus(true)
-                    setUser(session)
-                    router.push("/profile")
-                }
+                setAuthStatus(true)
+                router.push("/profile")
+                toast.error("Login success");
             }
         } catch (error: any) {
             setError(error.message)
+            toast.error(error.message);
         }
     }
 

@@ -26,7 +26,7 @@ export default function Header() {
             <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
                 <div className="inline-flex items-center space-x-2">
                     <Link href={"/"} className="inline-block w-full max-w-[150px]">
-                        {/* <Logo /> */}
+                        <Logo />
                     </Link>
                 </div>
                 <div className="hidden grow items-start lg:flex">
