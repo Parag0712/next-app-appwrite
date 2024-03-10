@@ -4,7 +4,7 @@ import authService from "@/appwrite/authService";
 import { useAuth } from "@/context/authContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, {FormEvent, useState} from "react";
+import React, { FormEvent, useState } from "react";
 
 
 const Signup = () => {
@@ -17,23 +17,29 @@ const Signup = () => {
     })
 
     const [error, setError] = useState("")
-    const {setAuthStatus,setUser} = useAuth();
+    const { setAuthStatus, setUser } = useAuth();
 
     const create = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             const userData = await authService.createAccount(formData);
             if (userData) {
-                setUser(userData)
-                setAuthStatus(true)
-                router.push("/profile")
+                const session = await authService.login(formData);
+                if (session) {
+                    const userData = await authService.getCurrentUser()
+                    if (userData) {
+                        setUser(userData)
+                        setAuthStatus(true)
+                        router.push("/profile")
+                    }
+                }
             }
-        } catch (error:any) {
+        } catch (error: any) {
             setError(error.message)
         }
     }
 
-    return(
+    return (
         <div className="flex items-center justify-center">
             <div className={`mx-auto w-full max-w-lg bg-gray-200/50 rounded-xl p-10`}>
                 <div className="mb-2 flex justify-center">

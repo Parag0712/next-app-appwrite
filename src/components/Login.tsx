@@ -4,20 +4,33 @@ import { useAuth } from "@/context/authContext";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, {FormEvent, useState} from "react";
+import React, { FormEvent, useState } from "react";
 
 const Login = () => {
     const router = useRouter();
-    const {setAuthStatus} = useAuth();
+    const { setAuthStatus, setUser } = useAuth();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
     })
     const [error, setError] = useState("")
-
     const login = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        try {
+            const session = await authService.login(formData);
+            if (session) {
+                const userData = await authService.getCurrentUser()
+                if (userData) {
+                    setAuthStatus(true)
+                    setUser(session)
+                    router.push("/profile")
+                }
+            }
+        } catch (error: any) {
+            setError(error.message)
+        }
     }
+
 
     return (
         <div className="flex items-center justify-center w-full">
