@@ -1,16 +1,17 @@
-# Next Auth App
+# Next Auth App with Appwrite
 
 ## Overview
 
-This project is a Next.js application focused on authentication, using technologies like Axios for HTTP requests, bcryptjs for password hashing, JSON Web Tokens (JWT) for authentication tokens, MongoDB with Mongoose for database interactions, Nodemailer for email sending, and React Hot Toast for notifications.
+This project is a Next.js application for user authentication, enhanced with Appwrite for backend services such as user management, authentication, and secure storage of sensitive data.
 
 ## Features
 
-- User authentication with login, registration, and password reset functionalities.
+- User authentication using Appwrite's authentication APIs.
+- Integration with Appwrite for secure user management and session handling.
+- Axios for HTTP requests to interact with the Appwrite API.
 - Password hashing with bcryptjs for secure storage.
-- JWT-based authentication for protected routes and sessions.
-- Integration with MongoDB using Mongoose for data persistence.
-- Email notifications using Nodemailer for actions like password reset.
+- JSON Web Tokens (JWT) for authentication tokens.
+- React Hot Toast for displaying notifications.
 
 ## Tech Stack
 
@@ -20,8 +21,7 @@ This project is a Next.js application focused on authentication, using technolog
 - Axios
 - bcryptjs
 - JSON Web Tokens (jsonwebtoken)
-- MongoDB with Mongoose
-- Nodemailer
+- Appwrite (authentication, database)
 - React Hot Toast
 - Tailwind CSS (configured via tailwind.config.ts)
 
